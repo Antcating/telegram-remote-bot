@@ -2,7 +2,7 @@
 
 ***
 
-Telegram Remote Administration Tool can **only** be used for **your** PC. To not be evil!
+**DISCLAIMER** | Telegram Remote Administration Tool can **only** be used for **your** PC. To not be evil!
 
 ***
 
