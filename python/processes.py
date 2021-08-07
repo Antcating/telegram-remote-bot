@@ -1,4 +1,4 @@
-import os, telebot, psutil
+import telebot, psutil
 from cmd_mode import *
 
 
