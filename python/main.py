@@ -8,9 +8,9 @@ from info import pc_info, get_screenshot
 from files import dir_location, list_dir
 from power_control import turn_off_pc, lock_win
 
-tb_token = '1693437075:AAFLgkYejKfDYTM6cy9ktiYpvGKpKCIjlYY'
+tb_token = 'token here'
 bot = tb.TeleBot(tb_token)
-user_id = 232741905
+user_id = id here
 
 main_menu = telebot.types.ReplyKeyboardMarkup()
 main_menu.row('🛰 Files')

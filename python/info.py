@@ -3,7 +3,7 @@ import telebot as tb
 import mss
 import mss.tools
 
-tb_token = '1693437075:AAFLgkYejKfDYTM6cy9ktiYpvGKpKCIjlYY'
+tb_token = 'token here'
 bot = tb.TeleBot(tb_token)
 
 

@@ -1,6 +1,6 @@
 import telebot as tb
 import os
-tb_token = '1693437075:AAFLgkYejKfDYTM6cy9ktiYpvGKpKCIjlYY'
+tb_token = 'token here'
 bot = tb.TeleBot(tb_token)
 
 

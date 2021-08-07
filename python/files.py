@@ -4,8 +4,8 @@ from keyboa import Keyboa
 import telebot.util
 import elevate
 
-user_id = 232741905
-tb_token = '1693437075:AAFLgkYejKfDYTM6cy9ktiYpvGKpKCIjlYY'
+user_id = id here
+tb_token = 'token here'
 bot = tb.TeleBot(tb_token)
 
 controls = ["⏪","🔼", "⏩"]
