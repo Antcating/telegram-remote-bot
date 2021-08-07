@@ -4,7 +4,7 @@ import telebot as tb
 import telebot.util
 
 from processes import list_message, kill, process_killing
-from info import pc_info, get_screenshot
+from info import pc_info, get_screenshot, streaming
 from files import dir_location, list_dir
 from power_control import turn_off_pc, lock_win
 from remote_input import remote_input, remote_input_handler
@@ -39,7 +39,8 @@ process_menu.row('🖨 List Processes', '🪓 Kill process')
 process_menu.row('🔼 Back to Main')
 
 info_menu = telebot.types.ReplyKeyboardMarkup()
-info_menu.row('🎛 PC Info', '🦪 Get ScreenShot')
+info_menu.row('🎛 PC Info')
+info_menu.row('🦪 Get ScreenShot', '📟 Start Stream')
 info_menu.row('🔼 Back to Main')
 
 
@@ -89,6 +90,8 @@ def reply_handler(message):
             pc_info(message, user_id, bot)
         elif message.text == '🦪 Get ScreenShot':
             get_screenshot(message, user_id, bot)
+        elif message.text == '📟 Start Stream':
+            streaming(message, user_id, bot)
 
         if message.text == '🌯 Remote Control':
             bot.send_message(user_id, '🌯 Remote Control', reply_markup=remote_menu)
@@ -192,6 +195,4 @@ def file_send(call):    # File browser bottoms handler
         except telebot.apihelper.ApiException as telebot_error:
             if telebot_error.result.status_code == 400:
                 bot.send_message(user_id, 'File is empty')
-
-
 bot.polling()
