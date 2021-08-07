@@ -56,11 +56,13 @@ def reply_handler(message):
         if message.text == '💾 Process Control':
             bot.send_message(user_id, '💾 Process Control', reply_markup=process_menu)
         if message.text == '🖨 List Processes':
-            list_message(message)
+            list_message(message, user_id, bot)
         elif message.text == '🪓 Kill process':
-            kill(message)
+            kill(message, user_id, bot)
             bot.register_next_step_handler(message,
-                                           process_killing)
+                                           process_killing,
+                                           user_id,
+                                           bot)
 
         if message.text == '💻 Power Control':
             bot.send_message(user_id, '💻 Power Control', reply_markup=power_menu)
@@ -95,8 +97,8 @@ def reply_handler(message):
 
 
 @bot.callback_query_handler(func=lambda call: True)
-def file_send(call):
-    if call.data == "🔼":
+def file_send(call):    # File browser bottoms handler
+    if call.data == "🔼":    # Go to up folder
         if call.message.text == '.':
             curr_dir = os.path.join(os.getcwd(), call.data).rsplit('\\', maxsplit=2)[0] + '\\'
         else:
@@ -111,7 +113,7 @@ def file_send(call):
                  kbd_upd=0,
                  user_id=user_id,
                  bot=bot)
-    elif call.data in ["⏪", "⏩"]:
+    elif call.data in ["⏪", "⏩"]:   # Next/Previous page of files list
         if call.message.text == '.':
             curr_dir = os.path.join(os.getcwd(), call.data) + '\\'
         else:
@@ -140,7 +142,7 @@ def file_send(call):
                 doc_to_send = open(call.message.text + call.data, 'rb')
             file = bot.send_document(call.from_user.id, doc_to_send)
 
-        except PermissionError:
+        except PermissionError: # Subfolders recursive
             if call.message.text == '.':
                 curr_dir = os.path.join(os.getcwd(), call.data) + '\\'
             else:
@@ -149,7 +151,7 @@ def file_send(call):
                      kbd_upd=0,
                      user_id=user_id,
                      bot=bot)
-        except FileNotFoundError:
+        except FileNotFoundError:   # 64 bytes inline limitation handler
             if call.message.text == '.':
                 curr_dir = os.path.join(os.getcwd(), call.data) + '\\'
             else:

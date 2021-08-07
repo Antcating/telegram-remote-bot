@@ -1,7 +1,6 @@
 import ctypes, os
 
 
-
 def turn_off_pc(message,  user_id, bot):
     bot.send_message(user_id, 'Turning off PC...')
     os.system("shutdown /s /t 1")
