@@ -96,7 +96,6 @@ def reply_handler(message):
 
 @bot.callback_query_handler(func=lambda call: True)
 def file_send(call):
-    print(call)
     if call.data == "🔼":
         if call.message.text == '.':
             curr_dir = os.path.join(os.getcwd(), call.data).rsplit('\\', maxsplit=2)[0] + '\\'
@@ -159,8 +158,6 @@ def file_send(call):
             curr_dir_list = os.listdir(curr_dir)
             count_text = call.message.json['reply_markup']['inline_keyboard'][0][0]['text']
             count_id = [i for i, s in enumerate(curr_dir_list) if count_text in s][0]
-            print(count_text)
-            print(curr_dir_list[count_id])
             file_to_send = open(curr_dir+ curr_dir_list[count_id], 'rb')
             bot.send_document(user_id, file_to_send)
         except telebot.apihelper.ApiException as telebot_error:
