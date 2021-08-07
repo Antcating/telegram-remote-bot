@@ -7,7 +7,7 @@ from processes import list_message, kill, process_killing
 from info import pc_info, get_screenshot
 from files import dir_location, list_dir
 from power_control import turn_off_pc, lock_win
-
+from remote_input import remote_input, remote_input_handler
 
 def update_config():
     config.read('config.ini')
@@ -25,6 +25,7 @@ bot = tb.TeleBot(tb_token)
 
 main_menu = telebot.types.ReplyKeyboardMarkup()
 main_menu.row('🛰 Files')
+main_menu.row('🌯 Remote Control')
 main_menu.row('💾 Process Control')
 main_menu.row('💻 Power Control')
 main_menu.row('❗ PC Info Menu')
@@ -40,6 +41,12 @@ process_menu.row('🔼 Back to Main')
 info_menu = telebot.types.ReplyKeyboardMarkup()
 info_menu.row('🎛 PC Info', '🦪 Get ScreenShot')
 info_menu.row('🔼 Back to Main')
+
+
+remote_menu = telebot.types.ReplyKeyboardMarkup()
+remote_menu.row('⌨️ Remote Input')
+remote_menu.row('🔑 Enter key', '🏮 Ctrl key')
+remote_menu.row('🔼 Back to Main')
 
 
 @bot.message_handler(commands=['start', 'help'])
@@ -78,6 +85,14 @@ def reply_handler(message):
         elif message.text == '🦪 Get ScreenShot':
             get_screenshot(message, user_id, bot)
 
+        if message.text == '🌯 Remote Control':
+            bot.send_message(user_id, '🌯 Remote Control', reply_markup=remote_menu)
+        if message.text == '⌨️ Remote Input':
+            remote_input_handler(user_id, bot)
+            bot.register_next_step_handler(message, remote_input, user_id, bot, type='input')
+        elif message.text == '🔑 Enter key':
+            remote_input(message, user_id, bot, type='enter')
+
         elif message.text == '🛰 Files':
             dir_location(message, user_id, bot)
             bot.register_next_step_handler(message,
@@ -94,6 +109,7 @@ def reply_handler(message):
         elif message.text == '🏑 CMD mode':
             bot.send_message(user_id, 'Entering CMD commands mode')
             cmd_mode(message)
+
 
 
 @bot.callback_query_handler(func=lambda call: True)
