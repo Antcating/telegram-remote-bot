@@ -103,7 +103,9 @@ def reply_handler(message):
         if message.text == '⌨️ CTRL + ...':
             bot.send_message(user_id, 'Enter ShortCut letter')
             bot.register_next_step_handler(message, remote_input, user_id, bot, type='ctrl')
-
+        if message.text == '⌨️ Custom Shortcut':
+            bot.send_message(user_id, 'Enter ShortCut combination')
+            bot.register_next_step_handler(message, remote_input, user_id, bot, type='free')
         elif message.text == '🛰 Files':
             dir_location(message, user_id, bot)
             bot.register_next_step_handler(message,
