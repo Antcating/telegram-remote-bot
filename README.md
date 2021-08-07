@@ -6,6 +6,13 @@
 
 ***
 
+<p align="center">
+    <img src="preview.gif" width="320", height="614"> </br>
+    *Remote Access preview*
+</p>
+
+
+
 ## Features
 Telegram Remote Administration Tool can:
 - Browse files and send selected to chat.
