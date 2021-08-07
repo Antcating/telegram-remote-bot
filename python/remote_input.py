@@ -1,4 +1,4 @@
-from pynput.keyboard import Key, Controller
+import pyautogui
 
 
 def remote_input_handler(user_id, bot):
@@ -6,11 +6,12 @@ def remote_input_handler(user_id, bot):
 
 
 def remote_input(message, user_id, bot, type):
-    keyboard = Controller()
     if type == 'input':
-        keyboard.type(message.text)
+        pyautogui.typewrite(message.text)
         bot.send_message(user_id, 'Remote input successfully sent')
     elif type == 'enter':
-        keyboard.press(Key.enter)
-        keyboard.release(Key.enter)
+        pyautogui.typewrite(['enter'])
         bot.send_message(user_id, 'Enter sent')
+    elif type == 'ctrl':
+        pyautogui.hotkey('ctrl', message.text)
+        bot.send_message(user_id, 'Shortcut sent sent')

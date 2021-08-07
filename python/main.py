@@ -45,8 +45,13 @@ info_menu.row('🔼 Back to Main')
 
 remote_menu = telebot.types.ReplyKeyboardMarkup()
 remote_menu.row('⌨️ Remote Input')
-remote_menu.row('🔑 Enter key', '🏮 Ctrl key')
+remote_menu.row('🏮 Shortcut menu', '↩️ Enter key')
 remote_menu.row('🔼 Back to Main')
+
+shortcut_menu = telebot.types.ReplyKeyboardMarkup()
+shortcut_menu.row('⌨️ CTRL + ...', '⌨️ Shift + ...')
+shortcut_menu.row('⌨️ Custom Shortcut')
+shortcut_menu.row('🔼 Back to Main')
 
 
 @bot.message_handler(commands=['start', 'help'])
@@ -90,8 +95,14 @@ def reply_handler(message):
         if message.text == '⌨️ Remote Input':
             remote_input_handler(user_id, bot)
             bot.register_next_step_handler(message, remote_input, user_id, bot, type='input')
-        elif message.text == '🔑 Enter key':
+        if message.text == '↩️ Enter key':
             remote_input(message, user_id, bot, type='enter')
+        elif message.text == '🏮 Shortcut menu':
+            bot.send_message(user_id, '🏮 Shortcut menu', reply_markup=shortcut_menu)
+
+        if message.text == '⌨️ CTRL + ...':
+            bot.send_message(user_id, 'Enter ShortCut letter')
+            bot.register_next_step_handler(message, remote_input, user_id, bot, type='ctrl')
 
         elif message.text == '🛰 Files':
             dir_location(message, user_id, bot)
@@ -109,7 +120,6 @@ def reply_handler(message):
         elif message.text == '🏑 CMD mode':
             bot.send_message(user_id, 'Entering CMD commands mode')
             cmd_mode(message)
-
 
 
 @bot.callback_query_handler(func=lambda call: True)
