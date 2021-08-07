@@ -1,2 +1,1 @@
-# telegram-rat-bot
-Telegram Remote Administration Tool
+# Telegram Remote Administration Tool
