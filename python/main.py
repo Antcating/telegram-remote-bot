@@ -119,7 +119,6 @@ def file_send(call):
         curr_dir_list = os.listdir(curr_dir)
         count_text = call.message.json['reply_markup']['inline_keyboard'][0][0]['text']
         try:
-            # count_id = curr_dir_list.index(count_text)
             count_id = [i for i, s in enumerate(curr_dir_list) if count_text in s][0]
             if call.data == "⏪":
                 keyboard_page = count_id // 10 - 1
