@@ -20,6 +20,7 @@ Telegram Remote Administration Tool can:
 - Get Info about PC.
 - Take ScreenShoots.
 - Process viewing and killing.
+- more to come...
 
 ## Usage
 
