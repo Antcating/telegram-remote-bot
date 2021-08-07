@@ -1,23 +1,18 @@
-import os
+import os, configparser
 import telebot as tb
 from keyboa import Keyboa
-import telebot.util
-import elevate
 
-user_id = id here
-tb_token = 'token here'
-bot = tb.TeleBot(tb_token)
 
 controls = ["⏪","🔼", "⏩"]
 controls = Keyboa(items=controls, items_in_row=3).keyboard
 
 
-def dir_location(message):
+def dir_location(message, user_id, bot):
     bot.send_message(user_id, 'Send me directory to see. \n'
                               'Type . to see current directory')
 
 
-def list_dir(message, path_upd, kbd_upd):
+def list_dir(message, path_upd, kbd_upd,  user_id, bot):
     global send_smg_pages
     if path_upd == 0:
         curr_dir = message.text

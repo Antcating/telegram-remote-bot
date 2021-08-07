@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-import os
+import os, configparser
 import telebot as tb
 import telebot.util
 
@@ -8,9 +8,20 @@ from info import pc_info, get_screenshot
 from files import dir_location, list_dir
 from power_control import turn_off_pc, lock_win
 
-tb_token = 'token here'
+
+def update_config():
+    config.read('config.ini')
+    return config
+
+
+config = configparser.ConfigParser()
+config = update_config()
+tb_token = config['TelegramBot']['token']
+user_id = int(config['Admin']['id'])
+
+
 bot = tb.TeleBot(tb_token)
-user_id = id here
+
 
 main_menu = telebot.types.ReplyKeyboardMarkup()
 main_menu.row('🛰 Files')
@@ -54,23 +65,26 @@ def reply_handler(message):
         if message.text == '💻 Power Control':
             bot.send_message(user_id, '💻 Power Control', reply_markup=power_menu)
         if message.text == '🔌 Turn Off PC':
-            turn_off_pc(message)
+            turn_off_pc(message,  user_id, bot)
         elif message.text == '👀 Lock PC':
-            lock_win(message)
+            lock_win(message, user_id, bot)
 
         if message.text == '❗ PC Info Menu':
             bot.send_message(user_id, '❗ PC Info Menu', reply_markup=info_menu)
         if message.text == '🎛 PC Info':
-            pc_info(message)
+            pc_info(message, user_id, bot)
         elif message.text == '🦪 Get ScreenShot':
-            get_screenshot(message)
+            get_screenshot(message, user_id, bot)
 
         elif message.text == '🛰 Files':
-            dir_location(message)
+            dir_location(message, user_id, bot)
             bot.register_next_step_handler(message,
                                            list_dir,
                                            path_upd=0,
-                                           kbd_upd=0)
+                                           kbd_upd=0,
+                                           user_id=user_id,
+                                           bot=bot
+                                           )
 
         if message.text == '🔼 Back to Main':
             bot.send_message(user_id, '🔼 Back to Main', reply_markup=main_menu)
@@ -81,7 +95,7 @@ def reply_handler(message):
 
 
 @bot.callback_query_handler(func=lambda call: True)
-def file_send(call):    
+def file_send(call):
     if call.data == "🔼":
         if call.message.text == '.':
             curr_dir = os.path.join(os.getcwd(), call.data).rsplit('\\', maxsplit=2)[0] + '\\'
@@ -92,7 +106,11 @@ def file_send(call):
             curr_dir = curr_dir[0].split(':')[0] + ':'
         else:
             curr_dir = curr_dir[0] + '\\'
-        list_dir(call.message, path_upd=curr_dir, kbd_upd=0)
+        list_dir(call.message,
+                 path_upd=curr_dir,
+                 kbd_upd=0,
+                 user_id=user_id,
+                 bot=bot)
     elif call.data in ["⏪", "⏩"]:
         if call.message.text == '.':
             curr_dir = os.path.join(os.getcwd(), call.data) + '\\'
@@ -106,7 +124,11 @@ def file_send(call):
                 keyboard_page = count_id // 10 - 1
             elif call.data == "⏩":
                 keyboard_page = count_id // 10 + 1
-            list_dir(call.message, path_upd=0, kbd_upd=keyboard_page)
+            list_dir(call.message,
+                     path_upd=0,
+                     kbd_upd=keyboard_page,
+                     user_id=user_id,
+                     bot=bot)
         except ValueError:
             bot.answer_callback_query(call.id, 'Internal Error occurred')
 
@@ -123,7 +145,10 @@ def file_send(call):
                 curr_dir = os.path.join(os.getcwd(), call.data) + '\\'
             else:
                 curr_dir = os.path.join(call.message.text, call.data) + '\\'
-            list_dir(call.message, curr_dir, kbd_upd=0)
+            list_dir(call.message, curr_dir,
+                     kbd_upd=0,
+                     user_id=user_id,
+                     bot=bot)
         except telebot.apihelper.ApiException as telebot_error:
             if telebot_error.result.status_code == 400:
                 bot.send_message(user_id, 'File is empty')

