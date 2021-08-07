@@ -62,3 +62,4 @@ All of the rows are necessary to make the Ring working.
 
 - [PyTelegramBotApi](https://github.com/eternnoir/pyTelegramBotAPI)
 - [Keyboa](https://github.com/torrua/keyboa)
+Author: [@regular_patty](https://t.me/regular_patty)
