@@ -96,6 +96,7 @@ def reply_handler(message):
 
 @bot.callback_query_handler(func=lambda call: True)
 def file_send(call):
+    print(call)
     if call.data == "🔼":
         if call.message.text == '.':
             curr_dir = os.path.join(os.getcwd(), call.data).rsplit('\\', maxsplit=2)[0] + '\\'
@@ -119,7 +120,8 @@ def file_send(call):
         curr_dir_list = os.listdir(curr_dir)
         count_text = call.message.json['reply_markup']['inline_keyboard'][0][0]['text']
         try:
-            count_id = curr_dir_list.index(count_text)
+            # count_id = curr_dir_list.index(count_text)
+            count_id = [i for i, s in enumerate(curr_dir_list) if count_text in s][0]
             if call.data == "⏪":
                 keyboard_page = count_id // 10 - 1
             elif call.data == "⏩":
@@ -129,7 +131,7 @@ def file_send(call):
                      kbd_upd=keyboard_page,
                      user_id=user_id,
                      bot=bot)
-        except ValueError:
+        except AttributeError:
             bot.answer_callback_query(call.id, 'Internal Error occurred')
 
     else:
@@ -149,6 +151,18 @@ def file_send(call):
                      kbd_upd=0,
                      user_id=user_id,
                      bot=bot)
+        except FileNotFoundError:
+            if call.message.text == '.':
+                curr_dir = os.path.join(os.getcwd(), call.data) + '\\'
+            else:
+                curr_dir = call.message.text
+            curr_dir_list = os.listdir(curr_dir)
+            count_text = call.message.json['reply_markup']['inline_keyboard'][0][0]['text']
+            count_id = [i for i, s in enumerate(curr_dir_list) if count_text in s][0]
+            print(count_text)
+            print(curr_dir_list[count_id])
+            file_to_send = open(curr_dir+ curr_dir_list[count_id], 'rb')
+            bot.send_document(user_id, file_to_send)
         except telebot.apihelper.ApiException as telebot_error:
             if telebot_error.result.status_code == 400:
                 bot.send_message(user_id, 'File is empty')
