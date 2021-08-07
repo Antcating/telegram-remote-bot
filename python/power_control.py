@@ -1,5 +1,4 @@
-import ctypes, os, configparser
-import telebot as tb
+import ctypes, os
 
 
 

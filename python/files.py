@@ -1,5 +1,4 @@
-import os, configparser
-import telebot as tb
+import os
 from keyboa import Keyboa
 
 
@@ -62,7 +61,8 @@ def keyboard_control(curr_dir):
             array_files.append(list(curr_dir_list[10 * n:]))
     for array in array_files:
         for item_n in range(len(array)):
-                array[item_n] = array[item_n][:40]
+            if len(array[item_n]) > 15:
+                array[item_n] = array[item_n][:15]
         if array != []:
             kb = Keyboa(items=array, items_in_row=1).keyboard
             kb = Keyboa.combine(keyboards=(kb, controls))
