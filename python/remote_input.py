@@ -17,6 +17,7 @@ def remote_input(message, user_id, bot, type):
         bot.send_message(user_id, 'Shortcut sent')
     elif type == 'shift':
         pyautogui.hotkey('shift', message.text)
+        bot.send_message(user_id, 'Shortcut sent')
     elif type == 'free':
         commands_list = message.text.split(',')
         for command in commands_list:

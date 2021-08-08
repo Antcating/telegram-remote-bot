@@ -33,7 +33,10 @@ def list_dir(message, path_upd, kbd_upd,  user_id, bot):
             elif keyboard_page < 0:
                 keyboard_page += len(kb_array)
             kb = kb_array[keyboard_page]
-            bot.edit_message_reply_markup(user_id, send_smg_pages.id, reply_markup=kb)
+            try:
+                bot.edit_message_reply_markup(user_id, send_smg_pages.id, reply_markup=kb)
+            except NameError:
+                pass  # Case when user use old file switcher (from previous session)
         else:
             keyboard_page = 0
             kb_array = keyboard_control(curr_dir)

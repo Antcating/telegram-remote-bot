@@ -29,6 +29,7 @@ main_menu.row('🌯 Remote Control')
 main_menu.row('💾 Process Control')
 main_menu.row('💻 Power Control')
 main_menu.row('❗ PC Info Menu')
+main_menu.row('❌ Exit')
 
 power_menu = telebot.types.ReplyKeyboardMarkup()
 power_menu.row('👀 Lock PC', '🔌 Turn Off PC')
@@ -53,6 +54,9 @@ shortcut_menu.row('⌨️ CTRL + ...', '⌨️ Shift + ...')
 shortcut_menu.row('⌨️ Custom Shortcut')
 shortcut_menu.row('🔼 Back to Main')
 
+exit_menu = telebot.types.ReplyKeyboardMarkup()
+exit_menu.row('✅ Yes')
+exit_menu.row('🔼 Back to Main')
 
 @bot.message_handler(commands=['start', 'help'])
 def welcome_message(message):
@@ -103,8 +107,11 @@ def reply_handler(message):
         if message.text == '⌨️ CTRL + ...':
             bot.send_message(user_id, 'Enter ShortCut letter')
             bot.register_next_step_handler(message, remote_input, user_id, bot, type='ctrl')
+        if message.text == '⌨️ Shift + ...':
+            bot.send_message(user_id, 'Enter ShortCut letter')
+            bot.register_next_step_handler(message, remote_input, user_id, bot, type='shift')
         if message.text == '⌨️ Custom Shortcut':
-            bot.send_message(user_id, 'Enter ShortCut combination')
+            bot.send_message(user_id, 'Enter ShortCut combination. For example:\nCtrl, v')
             bot.register_next_step_handler(message, remote_input, user_id, bot, type='free')
         elif message.text == '🛰 Files':
             dir_location(message, user_id, bot)
@@ -123,6 +130,11 @@ def reply_handler(message):
             bot.send_message(user_id, 'Entering CMD commands mode')
             cmd_mode(message)
 
+        if message.text == '❌ Exit':
+            bot.send_message(user_id, 'Do you want shutdown the bot?', reply_markup=exit_menu)
+        elif message.text == '✅ Yes':
+            bot.send_message(user_id, 'Shotdown bot...', reply_markup=main_menu)
+            os._exit(0)
 
 @bot.callback_query_handler(func=lambda call: True)
 def file_send(call):    # File browser bottoms handler
@@ -188,10 +200,24 @@ def file_send(call):    # File browser bottoms handler
             count_text = call.message.json['reply_markup']['inline_keyboard'][0][0]['text']
             count_id = [i for i, s in enumerate(curr_dir_list) if count_text in s][0]
             file_to_send = open(curr_dir+ curr_dir_list[count_id], 'rb')
-            bot.send_document(user_id, file_to_send)
+            try:
+                bot.send_document(user_id, file_to_send)
+            except:
+                bot.send_message(user_id, 'File cannot be sent.\nMaybe it\'s too big or empty.')
         except telebot.apihelper.ApiException as telebot_error:
             if telebot_error.result.status_code == 400:
                 bot.send_message(user_id, 'File is empty')
+        except: # Handles various unforeseen circumstances, and also the case when the current folder was
+            # deleted and the user goes to the folder above
+            bot.send_message(user_id, 'File cannot be sent.\nMaybe it\'s too big or empty')
 
 
-bot.polling()
+if __name__ == '__main__':
+    try:
+        bot.send_message(user_id,
+                                'Connection established!\n'
+                                'This is process manager for your PC.',
+                                reply_markup=main_menu)
+    except:
+        pass
+    bot.polling()
