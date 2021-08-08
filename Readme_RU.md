@@ -6,6 +6,8 @@
 
 ***
 
+Читайте на [Русском](https://github.com/Antcating/telegram-remote-bot/blob/main/Readme_RU.md) | Read in [English](https://github.com/Antcating/telegram-remote-bot/blob/main/README.md)
+
 <p align="center">
     <img src="preview.gif" width="320", height="614"> </br>
     *Демо*
