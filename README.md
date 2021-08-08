@@ -54,7 +54,7 @@ token = bot_token
 [Admin]
 id = admin_id 
 ```
-All of the rows are necessary to make the Ring working.
+All of the rows are necessary to make the bot working.
 - Telegram Remote Administration Tool uses Telegram Bots, so you will have to go to [BotFather](https://t.me/BotFather) and create bot using its instructions. After creating bot, BotFather will return token to access the HTTP API. You will have to copy-paste it to the configuration file on the 'token' row.
 - Due to basic security reasons, only approved administrator will be able to have access to PC. So, you have to get your Telegram id. You can to it, for example, using [this bot](https://t.me/userinfobot). Your id you paste to the config on the 'id' row.
 
