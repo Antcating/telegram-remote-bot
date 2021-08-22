@@ -1,5 +1,5 @@
 import telebot, psutil
-from cmd_mode import *
+import os
 
 
 def list_message(message, user_id, bot):

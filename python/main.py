@@ -3,11 +3,13 @@ import os, configparser
 import telebot as tb
 import telebot.util
 
+from keyboards import *
 from processes import list_message, kill, process_killing
 from info import pc_info, get_screenshot
 from files import dir_location, list_dir
-from power_control import turn_off_pc, lock_win
+from power_control import turn_off_pc, lock_win, reboot_pc
 from remote_input import remote_input, remote_input_handler
+from cmd_mode import cmd_mode
 
 def update_config():
     config.read('config.ini')
@@ -22,41 +24,6 @@ user_id = int(config['Admin']['id'])
 
 bot = tb.TeleBot(tb_token)
 
-
-main_menu = telebot.types.ReplyKeyboardMarkup()
-main_menu.row('🛰 Files')
-main_menu.row('🌯 Remote Control')
-main_menu.row('💾 Process Control')
-main_menu.row('💻 Power Control')
-main_menu.row('❗ PC Info Menu')
-main_menu.row('❌ Exit')
-
-power_menu = telebot.types.ReplyKeyboardMarkup()
-power_menu.row('👀 Lock PC', '🔌 Turn Off PC')
-power_menu.row('🔼 Back to Main')
-
-process_menu = telebot.types.ReplyKeyboardMarkup()
-process_menu.row('🖨 List Processes', '🪓 Kill process')
-process_menu.row('🔼 Back to Main')
-
-info_menu = telebot.types.ReplyKeyboardMarkup()
-info_menu.row('🎛 PC Info', '🦪 Get ScreenShot')
-info_menu.row('🔼 Back to Main')
-
-
-remote_menu = telebot.types.ReplyKeyboardMarkup()
-remote_menu.row('⌨️ Remote Input')
-remote_menu.row('🏮 Shortcut menu', '↩️ Enter key')
-remote_menu.row('🔼 Back to Main')
-
-shortcut_menu = telebot.types.ReplyKeyboardMarkup()
-shortcut_menu.row('⌨️ CTRL + ...', '⌨️ Shift + ...')
-shortcut_menu.row('⌨️ Custom Shortcut')
-shortcut_menu.row('🔼 Back to Main')
-
-exit_menu = telebot.types.ReplyKeyboardMarkup()
-exit_menu.row('✅ Yes')
-exit_menu.row('🔼 Back to Main')
 
 @bot.message_handler(commands=['start', 'help'])
 def welcome_message(message):
@@ -83,7 +50,9 @@ def reply_handler(message):
         if message.text == '💻 Power Control':
             bot.send_message(user_id, '💻 Power Control', reply_markup=power_menu)
         if message.text == '🔌 Turn Off PC':
-            turn_off_pc(message,  user_id, bot)
+            turn_off_pc(message, user_id, bot)
+        if message.text == '🔃 Reboot PC':
+            reboot_pc(message, user_id, bot)
         elif message.text == '👀 Lock PC':
             lock_win(message, user_id, bot)
 
@@ -124,11 +93,12 @@ def reply_handler(message):
                                            )
 
         if message.text == '🔼 Back to Main':
-            bot.send_message(user_id, '🔼 Back to Main', reply_markup=main_menu)
+            bot.send_message(user_id, 'Back to Main menu', reply_markup=main_menu)
 
         elif message.text == '🏑 CMD mode':
-            bot.send_message(user_id, 'Entering CMD commands mode')
-            cmd_mode(message)
+            bot.send_message(user_id, 'Entering CMD commands mode',
+                             reply_markup=cmd_menu)
+            cmd_mode(message, user_id, bot)
 
         if message.text == '❌ Exit':
             bot.send_message(user_id, 'Do you want shutdown the bot?', reply_markup=exit_menu)
