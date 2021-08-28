@@ -13,6 +13,7 @@ power_menu = telebot.types.ReplyKeyboardMarkup()
 power_menu.row('👀 Lock PC')
 power_menu.row('🔌 Turn Off PC')
 power_menu.row('🔃 Reboot PC')
+power_menu.row('➕ Add to startup', '✖️Remove from startup')
 power_menu.row('🔼 Back to Main')
 
 process_menu = telebot.types.ReplyKeyboardMarkup()

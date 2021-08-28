@@ -7,7 +7,7 @@ from keyboards import *
 from processes import list_message, kill, process_killing
 from info import pc_info, get_screenshot
 from files import dir_location, list_dir
-from power_control import turn_off_pc, lock_win, reboot_pc
+from power_control import turn_off_pc, lock_win, reboot_pc, add_to_startup, del_from_startup
 from remote_input import remote_input, remote_input_handler
 from cmd_mode import cmd_mode
 
@@ -53,8 +53,13 @@ def reply_handler(message):
             turn_off_pc(message, user_id, bot)
         if message.text == '🔃 Reboot PC':
             reboot_pc(message, user_id, bot)
-        elif message.text == '👀 Lock PC':
+        if message.text == '👀 Lock PC':
             lock_win(message, user_id, bot)
+        if message.text == '➕ Add to startup':
+            add_to_startup(message, user_id, bot,
+                           (os.path.dirname(os.path.abspath(__file__)) + '\\' + os.path.basename(__file__)))
+        if message.text == '✖️Remove from startup':
+            del_from_startup(message, user_id, bot)
 
         if message.text == '❗ PC Info Menu':
             bot.send_message(user_id, '❗ PC Info Menu', reply_markup=info_menu)
