@@ -16,11 +16,13 @@ def lock_win(message,  user_id, bot):
     ctypes.windll.user32.LockWorkStation()
 
 
-def add_to_startup(message,  user_id, bot, path):
+def add_to_startup(message,  user_id, bot, pathToScript, scriptName):
     bot.send_message(user_id, 'Adding to startup folder...')
-    os.system("echo python \"" + path +
-              "\" > \"C:\\Users\\" + os.getlogin() +
-              "\\AppData\\Roaming\\Microsoft\\Windows\\Start Menu\\Programs\\Startup\\telegram-remote-bot.bat\"")
+    pathToBat="\"C:\\Users\\" + os.getlogin() + \
+              "\\AppData\\Roaming\\Microsoft\\Windows\\Start Menu\\Programs\\Startup\\telegram-remote-bot.bat\""
+    os.system("echo " + pathToScript[:2] + " > " + pathToBat)  # D:
+    os.system("echo cd " + pathToScript + " >> " + pathToBat)  # cd "D:\telegram-remote-bot-main\python"
+    os.system("echo python " + scriptName + " >> " + pathToBat)  # python "main.py"
 
 
 def del_from_startup(message,  user_id, bot):

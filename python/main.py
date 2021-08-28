@@ -57,7 +57,7 @@ def reply_handler(message):
             lock_win(message, user_id, bot)
         if message.text == '➕ Add to startup':
             add_to_startup(message, user_id, bot,
-                           (os.path.dirname(os.path.abspath(__file__)) + '\\' + os.path.basename(__file__)))
+                           os.path.dirname(os.path.abspath(__file__)), os.path.basename(__file__))
         if message.text == '✖️Remove from startup':
             del_from_startup(message, user_id, bot)
 
