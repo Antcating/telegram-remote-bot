@@ -19,7 +19,7 @@ def list_message(message, user_id, bot):
 
 def kill(message, user_id, bot):
     bot.send_message(user_id,
-                     'Send me a process name to kill')
+                     'Send me a process name to kill (case sensitive)')
 
 
 def process_killing(message, user_id, bot):

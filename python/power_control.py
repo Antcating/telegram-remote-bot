@@ -21,8 +21,11 @@ def add_to_startup(message,  user_id, bot, pathToScript, scriptName):
     pathToBat="\"C:\\Users\\" + os.getlogin() + \
               "\\AppData\\Roaming\\Microsoft\\Windows\\Start Menu\\Programs\\Startup\\telegram-remote-bot.bat\""
     os.system("echo " + pathToScript[:2] + " > " + pathToBat)  # D:
-    os.system("echo cd " + pathToScript + " >> " + pathToBat)  # cd "D:\telegram-remote-bot-main\python"
-    os.system("echo python " + scriptName + " >> " + pathToBat)  # python "main.py"
+    os.system("echo cd \"" + pathToScript + "\" >> " + pathToBat)  # cd "D:\telegram-remote-bot-main\python"
+    if scriptName[-2:] == "py":
+        os.system("echo python \"" + scriptName + "\" >> " + pathToBat)  # python "main.py"
+    else:
+        os.system("echo \"" + scriptName + "\" >> " + pathToBat)  # "Not a virus.exe"
 
 
 def del_from_startup(message,  user_id, bot):

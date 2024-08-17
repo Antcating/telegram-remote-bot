@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-import os, configparser
+import os, configparser, sys
 import telebot as tb
 import telebot.util
 
@@ -23,6 +23,12 @@ user_id = int(config['Admin']['id'])
 
 
 bot = tb.TeleBot(tb_token)
+
+def get_file_path():
+    if getattr(sys, 'frozen', False):
+        return sys.executable
+    else:
+        return os.path.abspath(__file__)
 
 
 @bot.message_handler(commands=['start', 'help'])
@@ -57,7 +63,7 @@ def reply_handler(message):
             lock_win(message, user_id, bot)
         if message.text == '➕ Add to startup':
             add_to_startup(message, user_id, bot,
-                           os.path.dirname(os.path.abspath(__file__)), os.path.basename(__file__))
+                           os.path.dirname(get_file_path()), os.path.basename(get_file_path()))
         if message.text == '✖️Remove from startup':
             del_from_startup(message, user_id, bot)
 
@@ -68,12 +74,12 @@ def reply_handler(message):
         elif message.text == '🦪 Get ScreenShot':
             get_screenshot(message, user_id, bot)
 
-        if message.text == '🌯 Remote Control':
-            bot.send_message(user_id, '🌯 Remote Control', reply_markup=remote_menu)
+        if message.text == '🌯 Remote Input':
+            bot.send_message(user_id, '🌯 Remote Input', reply_markup=remote_menu)
         if message.text == '⌨️ Remote Input':
             remote_input_handler(user_id, bot)
             bot.register_next_step_handler(message, remote_input, user_id, bot, type='input')
-        if message.text == '↩️ Enter key':
+        if message.text == '↩️ "Enter" key':
             remote_input(message, user_id, bot, type='enter')
         elif message.text == '🏮 Shortcut menu':
             bot.send_message(user_id, '🏮 Shortcut menu', reply_markup=shortcut_menu)

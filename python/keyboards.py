@@ -2,7 +2,7 @@ import telebot.util
 
 main_menu = telebot.types.ReplyKeyboardMarkup()
 main_menu.row('🛰 Files')
-main_menu.row('🌯 Remote Control')
+main_menu.row('🌯 Remote Input')
 main_menu.row('💾 Process Control')
 main_menu.row('💻 Power Control')
 main_menu.row('❗ PC Info Menu')
