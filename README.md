@@ -6,7 +6,7 @@
 
 ***
 
-Читайте на [Русском](https://github.com/Antcating/telegram-remote-bot/blob/main/Readme_RU.md) | Read in [English](https://github.com/Antcating/telegram-remote-bot/blob/main/README.md)
+Read in [English](https://github.com/Antcating/telegram-remote-bot/blob/main/README.md)
 
 <p align="center">
     <img src="preview.gif" width="320", height="614"> </br>
@@ -65,5 +65,3 @@ All of the rows are necessary to make the bot working.
 
 - [PyTelegramBotApi](https://github.com/eternnoir/pyTelegramBotAPI)
 - [Keyboa](https://github.com/torrua/keyboa)
-
-Author: [@regular_patty](https://t.me/regular_patty)
