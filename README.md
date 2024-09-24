@@ -4,9 +4,7 @@
 
 **DISCLAIMER** | Telegram Remote Administration Tool can **only** be used at **your** PC. Do not be evil!
 
-***
-
-Read in [English](https://github.com/Antcating/telegram-remote-bot/blob/main/README.md)
+**
 
 <p align="center">
     <img src="preview.gif" width="320", height="614"> </br>
